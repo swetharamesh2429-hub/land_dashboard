@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+}
+
+/* Custom Leaflet Map Styling for Government Command Center */
+.leaflet-container {
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+  background: #090D16 !important;
+}
+
+.custom-leaflet-icon {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+}
+
+/* Ensure Leaflet popups always render with higher z-index than overlay controls (z-[1000] / z-[500]) */
+.leaflet-pane.leaflet-popup-pane,
+.leaflet-popup {
+  z-index: 2500 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #0F172A !important;
+  color: #F1F5F9 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.8), 0 12px 16px -6px rgba(0, 0, 0, 0.7) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip-container {
+  z-index: 2500 !important;
+}
+
+.leaflet-popup-tip {
+  background: #0F172A !important;
+  border: 1px solid #334155 !important;
+}
+
+/* Sleek close ("X") button on popups for seamless dismissal */
+.leaflet-popup-close-button {
+  color: #94A3B8 !important;
+  padding: 0 !important;
+  font-size: 16px !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  top: 8px !important;
+  right: 8px !important;
+  background: rgba(30, 41, 59, 0.85) !important;
+  border: 1px solid rgba(71, 85, 105, 0.6) !important;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 50 !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #FFFFFF !important;
+  background: #334155 !important;
+  border-color: #94A3B8 !important;
+  transform: scale(1.06);
+}
+
+.raksha-popup .leaflet-popup-content-wrapper {
+  background: #0b1324 !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Susceptibility Hatched Overlay Styling */
+.susceptibility-hatch-shape {
+  fill: url(#susceptibility-hatch) !important;
+  fill-opacity: 0.28 !important;
+}
+
+/* Reusable Soft Blue Focus Glow (200ms smooth fade-in/out transition) */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.22), 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  border-color: #0284c7 !important;
+  transition: box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease !important;
+}
+
+input,
+select,
+textarea {
+  transition: box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease !important;
+}
+
+.focus-glow {
+  transition: box-shadow 200ms ease, border-color 200ms ease, transform 150ms ease !important;
+}
+
+.focus-glow:focus,
+.focus-glow:focus-visible,
+.focus-glow:focus-within {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25) !important;
+}
+
+/* Radar Sweep / Continuous Full-Width Scanning Line Animation */
+@keyframes radarScan {
+  0% {
+    left: 0%;
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.85;
+  }
+  100% {
+    left: 100%;
+    transform: translateX(0%);
+    opacity: 0;
+  }
+}
+
+.animate-radar-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 35%;
+  animation: radarScan 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Subtle Vivid Live Dot Pulse */
+@keyframes liveDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.75);
+  }
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 10px 3px rgba(16, 185, 129, 0.55);
+  }
+}
+
+.animate-live-dot {
+  animation: liveDotPulse 1.8s ease-in-out infinite;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
