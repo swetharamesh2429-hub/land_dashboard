@@ -320,17 +320,20 @@ export const OfficerRiskMap = ({
       interval = setInterval(() => {
         setSelectedDayIndex((prev) => {
           if (prev >= historyTimeline.length - 1) {
-            setIsPlayingTimeline(false);
             return prev;
           }
-          return prev + 1;
+          const nextIndex = prev + 1;
+          if (nextIndex >= historyTimeline.length - 1) {
+            setIsPlayingTimeline(false);
+          }
+          return nextIndex;
         });
       }, 1400);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlayingTimeline, historyTimeline]);
+  }, [isPlayingTimeline, historyTimeline.length]);
 
   useEffect(() => {
     if (districtId === 'DH') {
@@ -815,7 +818,7 @@ export const OfficerRiskMap = ({
       {isHistoricalMode && (
         <div className="absolute top-14 left-3 right-3 z-[500] bg-[#0a0a0a]/95 backdrop-blur-md border border-indigo-700/60 text-white p-3 rounded-2xl shadow-2xl flex items-center justify-between gap-3 text-xs pointer-events-auto animate-in fade-in">
           <div className="flex items-center gap-2.5">
-            <History className="w-4 h-4 text-indigo-400 animate-spin shrink-0" />
+            <History className="w-4 h-4 text-indigo-400 shrink-0" />
             <div>
               <span className="font-semibold text-indigo-200">
                 ⏪ Historical Hazard Replay Mode: {currentTimelineSlice?.label} ({currentTimelineSlice?.dateFormatted})
@@ -872,7 +875,7 @@ export const OfficerRiskMap = ({
 
         {/* Part 1: Visual Flash Flood Inundation Extent Overlay Layer (30% Opacity Blue Shaded Shape) */}
         {activeLayers.floodExtent &&
-          zones.map((zone) => {
+          activeZonesPool.map((zone) => {
             if (!zone.location?.coordinates) return null;
             const floodExtentSqKm = zone.combinedRisk?.floodExtentSqKm || (zone.combinedRisk?.flashFloodScore > 50 ? 1.8 : 0);
             if (!floodExtentSqKm || floodExtentSqKm < 0.2) return null;
@@ -971,7 +974,7 @@ export const OfficerRiskMap = ({
 
         {/* 1. Base Susceptibility Overlay (FIX 1: Semi-Transparent Diagonal Hatched SVG Pattern) */}
         {activeLayers.susceptibilityOverlay &&
-          zones.map((zone) => {
+          activeZonesPool.map((zone) => {
             if (!zone.location?.coordinates || (zone.susceptibility?.score || 0) < 50) return null;
             const [lon, lat] = zone.location.coordinates;
             return (
@@ -1456,7 +1459,16 @@ export const OfficerRiskMap = ({
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setIsPlayingTimeline(!isPlayingTimeline)}
+                onClick={() => {
+                  if (!isPlayingTimeline) {
+                    if (selectedDayIndex >= historyTimeline.length - 1) {
+                      setSelectedDayIndex(0);
+                    }
+                    setIsPlayingTimeline(true);
+                  } else {
+                    setIsPlayingTimeline(false);
+                  }
+                }}
                 className={`px-3 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1 transition-all cursor-pointer ${
                   isPlayingTimeline
                     ? 'bg-amber-600 text-white animate-pulse'
