@@ -891,7 +891,7 @@ export const OfficerRiskMap = ({
 
             return (
               <Circle
-                key={`flood-ext-${zone._id}`}
+                key={`flood-ext-${zone._id}-${selectedDayIndex}`}
                 center={[lat, lon]}
                 radius={radiusMeters}
                 pathOptions={{
@@ -979,7 +979,7 @@ export const OfficerRiskMap = ({
             const [lon, lat] = zone.location.coordinates;
             return (
               <CircleMarker
-                key={`sus-${zone._id}`}
+                key={`sus-${zone._id}-${selectedDayIndex}`}
                 center={[lat, lon]}
                 radius={26}
                 pathOptions={{
@@ -1081,7 +1081,7 @@ export const OfficerRiskMap = ({
 
             return (
               <CircleMarker
-                key={zone._id}
+                key={`${zone._id}-${selectedDayIndex}-${tier}`}
                 center={[lat, lon]}
                 radius={isDanger ? 14 : isSelected ? 13 : 10}
                 eventHandlers={{
